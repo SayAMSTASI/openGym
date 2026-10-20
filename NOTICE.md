@@ -158,6 +158,13 @@ photo uses [**jsQR**](https://github.com/cozmo/jsQR) by Cosmo Wolfe, under the *
 Where the browser has a native `BarcodeDetector`, that is tried first and jsQR is the fallback.
 Video frames are decoded in memory and never uploaded or stored.
 
+### Food barcode scanner — `@zxing/library`
+
+The local nutrition screen decodes EAN/UPC food barcodes with `@zxing/library` 0.21.3.
+The dependency's shipped LICENSE (including its upstream notices) is reproduced in
+[docs/third-party/ZXing-LICENSE.txt](docs/third-party/ZXing-LICENSE.txt).
+Camera frames and imported barcode photos are decoded locally in the browser.
+
 ### Camera scan & photo decode in the app — `@capacitor-mlkit/barcode-scanning`
 
 In the Android/iOS app, reading a code — from the camera or from an imported photo — uses the

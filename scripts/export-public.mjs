@@ -19,4 +19,11 @@ for (const file of files) {
   fs.mkdirSync(path.dirname(target), { recursive: true })
   fs.copyFileSync(source, target); count++; bytes += fs.statSync(target).size
 }
-console.log(JSON.stringify({ files: count, bytes, historyIncluded: false, runtimeDataIncluded: false }))
+// Preserve Linux executable bits even when the export is made on Windows.
+execFileSync('git', ['init', '-b', 'main'], { cwd: destination })
+execFileSync('git', ['add', '--all'], { cwd: destination, maxBuffer: 32 * 1024 * 1024 })
+const executable = execFileSync('git', ['ls-files', '--stage', '-z'], { encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 })
+  .split('\0').filter(row => row.startsWith('100755 ')).map(row => row.slice(row.indexOf('\t') + 1)).filter(file => fs.existsSync(path.join(destination, file)))
+if (executable.length) execFileSync('git', ['update-index', '--chmod=+x', '--', ...executable], { cwd: destination })
+execFileSync(process.execPath, ['scripts/audit-public-source.mjs'], { cwd: destination, stdio: 'inherit' })
+console.log(JSON.stringify({ files: count, bytes, executableFiles: executable.length, historyIncluded: false, runtimeDataIncluded: false }))

@@ -7,6 +7,23 @@
 Это репозиторий доработанной версии. Публичный сайт, демо, мобильные релизы и
 контейнеры исходного проекта не содержат автоматически все описанные здесь изменения.
 
+## Скриншоты
+
+Текущий русский интерфейс. Все записи на снимках демонстрационные, личные данные
+пользователей не используются. Нажмите на изображение, чтобы открыть его в полном размере.
+
+| Питание: калории и БЖУ | Open Food Facts и сканер штрихкодов |
+|---|---|
+| [![Дневник питания](assets/screenshots/ru/nutrition.jpg)](assets/screenshots/ru/nutrition.jpg) | [![Поиск продуктов и сканер](assets/screenshots/ru/products.jpg)](assets/screenshots/ru/products.jpg) |
+
+| Приём спортивных добавок | Локальный справочник веществ |
+|---|---|
+| [![Расписание приёма добавок](assets/screenshots/ru/supplements.jpg)](assets/screenshots/ru/supplements.jpg) | [![Справочник добавок](assets/screenshots/ru/catalogue.jpg)](assets/screenshots/ru/catalogue.jpg) |
+
+| Тренировка: веса и подходы | Статистика занятий |
+|---|---|
+| [![Экран тренировки](assets/screenshots/ru/workout.jpg)](assets/screenshots/ru/workout.jpg) | [![Статистика тренировок](assets/screenshots/ru/stats.jpg)](assets/screenshots/ru/stats.jpg) |
+
 ## Что есть в приложении
 
 | Раздел | Возможности |

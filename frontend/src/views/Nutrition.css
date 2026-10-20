@@ -1,0 +1,24 @@
+.nutrition-page .seg{margin-bottom:18px}
+.nutrition-form{display:grid;gap:14px}
+.nutrition-form label,.nutrition-search label{display:grid;gap:6px;font-size:14px}
+.nutrition-form [role=alert],.nutrition-search [role=alert]{color:var(--red,#ed6565)}
+.nutrition-numbers,.nutrition-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.nutrition-summary{margin:16px 0}
+.nutrition-summary .card{display:flex;flex-direction:column;gap:7px;padding:14px;min-width:0}
+.nutrition-summary strong{font-size:25px;font-variant-numeric:tabular-nums}
+.nutrition-summary progress{width:100%;height:7px;accent-color:var(--acc)}
+.nutrition-date{display:flex;align-items:center;gap:16px;margin-top:12px}
+.nutrition-date input{width:auto}
+.nutrition-entry{margin-top:10px}
+.nutrition-entry p{margin:9px 0}
+.nutrition-actions{display:flex;flex-wrap:wrap;gap:8px}
+.nutrition-search{margin:18px 0}
+.nutrition-search form{display:grid;gap:12px}
+.nutrition-result,.nutrition-ingredient{padding:12px 0;border-bottom:1px solid var(--sep, #7774)}
+.nutrition-warning{color:var(--orange)}
+@media(max-width:540px){.nutrition-summary,.nutrition-numbers{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){#tabbar button{font-size:9px;padding-inline:1px}#tabbar button .icn{font-size:22px}}
+
+.food-barcode-camera{position:relative;min-height:160px;overflow:hidden}
+.food-barcode-camera video{display:block;width:100%;max-height:330px;object-fit:cover}
+.food-barcode-frame{position:absolute;inset:28% 8%;border:2px solid var(--acc);border-radius:10px;pointer-events:none}

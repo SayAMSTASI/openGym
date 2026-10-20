@@ -1,0 +1,17 @@
+name: Public source and owner security
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/audit-public-source.mjs
+      - run: npm ci --omit=optional
+        working-directory: api
+      - run: node --test test/owner-setup.test.js test/server-first-user-admin.test.js test/integration-access.test.js test/integration-server.test.js test/dockerfile-copy.test.js
+        working-directory: api

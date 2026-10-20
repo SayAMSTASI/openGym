@@ -1,0 +1,18 @@
+name: opengym-local
+services:
+  api:
+    image: opengym-local-api:ru
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+  web:
+    image: opengym-local-web:ru
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    ports: !override
+      - "127.0.0.1:${WEB_PORT:-18081}:${NGINX_PORT:-80}"

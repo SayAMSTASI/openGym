@@ -1,0 +1,41 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { spawn } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { boundPort } from './helpers.mjs';
+const API = fileURLToPath(new URL('..', import.meta.url));
+test('bootstrapped administrator signs in through the normal route and keeps access across restart', async t => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'gym-admin-server-'));
+  let child, output = '';
+  const stop = async () => { if (child && child.exitCode === null) { child.kill('SIGKILL'); await new Promise(r => child.once('exit', r)); } };
+  t.after(async () => { await stop(); fs.rmSync(dir, { recursive: true, force: true }); });
+  const start = async () => {
+    output = '';
+    child = spawn(process.execPath, ['server.js'], { cwd: API, stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env,
+      PORT: '0', DATA_DIR: dir, ORIGIN: 'http://localhost:8080', PASSWORD_LOGIN: '1', FIRST_USER_ADMIN: '1', BOOTSTRAP_ADMIN: '1', BOOTSTRAP_ADMIN_NAME: 'admin' } });
+    child.stdout.on('data', b => { output += b }); child.stderr.on('data', b => { output += b });
+    return `http://127.0.0.1:${await boundPort(child, () => output)}`;
+  };
+  let url = await start();
+  const password = fs.readFileSync(path.join(dir, 'bootstrap-admin-password'), 'utf8').trimEnd();
+  const request = (name, password, route = '/api/login/password') => fetch(url + route, { method: 'POST', headers: { Origin: 'http://localhost:8080', 'Content-Type': 'application/json' }, body: JSON.stringify({ name, password }) });
+  assert.equal((await request('admin', 'wrong')).status, 401);
+  const login = await request('admin', password);
+  assert.equal(login.status, 200);
+  const id = (await login.json()).user.id;
+  const cookie = login.headers.get('set-cookie').split(';')[0];
+  assert.equal((await fetch(url + '/api/admin/users', { headers: { Cookie: cookie } })).status, 200);
+  const other = await request('Ordinary', 'A strong normal password!', '/api/register/password');
+  assert.equal(other.status, 200);
+  assert.equal((await fetch(url + '/api/admin/users', { headers: { Cookie: other.headers.get('set-cookie').split(';')[0] } })).status, 403);
+  assert.ok(!output.includes(password));
+  await stop(); url = await start();
+  const again = await request('admin', password);
+  assert.equal(again.status, 200); assert.equal((await again.json()).user.id, id);
+  const db = JSON.parse(fs.readFileSync(path.join(dir, 'db.json')));
+  assert.equal(db.users.filter(u => u.admin).length, 1);
+  assert.ok(!output.includes(password));
+});

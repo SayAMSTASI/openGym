@@ -1,0 +1,12 @@
+node_modules
+.env*
+data
+coach-auth
+*.pem
+*.key
+*.p12
+*.pfx
+**/*.bak
+**/db.json
+**/state-*.json
+*.log

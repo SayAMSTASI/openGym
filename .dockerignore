@@ -1,0 +1,22 @@
+**/node_modules
+frontend/dist
+media
+data
+.env
+.git
+*.log
+
+# Private MCP connection; holds a profile read token.
+mcp/connection.local.json
+coach-auth
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+**/*.bak
+**/db.json
+**/state-*.json
+.codex
+work
+outputs

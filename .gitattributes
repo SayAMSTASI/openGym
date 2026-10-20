@@ -1,0 +1,4 @@
+# Linux entrypoints and byte-compared generated sources must survive a Windows checkout.
+*.sh text eol=lf
+api/coach/prompts/*.md text eol=lf
+api/nudge-copy.js text eol=lf
